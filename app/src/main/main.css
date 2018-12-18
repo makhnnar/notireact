@@ -1,0 +1,17 @@
+.Contenedor{
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+	justify-content: space-around;
+}
+
+.menu{
+	display: flex;
+	flex: 1;
+	background-color: #7986cb;
+}
+.mostrar{
+	display: flex;
+	flex: 3;
+	background-color: #7e57c2;
+}

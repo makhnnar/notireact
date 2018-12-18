@@ -1,0 +1,10 @@
+.inf{
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	text-align: center;
+	justify-content: space-around;
+	margin: 20px;
+	background-color: #ffaaff;
+	border-radius: 20px;
+}

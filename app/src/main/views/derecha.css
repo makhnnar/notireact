@@ -1,0 +1,6 @@
+.una{
+	display: flex;
+	flex:1;
+	flex-direction: column;
+	text-align: center;
+}
