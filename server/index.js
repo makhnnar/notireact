@@ -2,11 +2,17 @@ const cors = require('cors');
 
 const express = require('express');
 
+const bodyParser = require('body-parser');
+
 const restApi = express();
 
 const data = require('./data');
 
-restApi.use(express.json());
+//restApi.use(express.json());
+
+restApi.use(express.static('imagenes'));
+restApi.use(bodyParser.json());
+restApi.use(bodyParser.urlencoded({ extended: true }));
 
 restApi.use(cors());
 
@@ -22,34 +28,47 @@ restApi.all('/*', function(req, res, next) {
   next();
 });
 
-restApi.get('/get_noticias',(req,res)=>{
+restApi.get('/get_noticias/:id',(req,res)=>{
   console.log(' ');
-  console.log('SENDING FROM <<get_noticias>> : '+JSON.stringify(data.noticias));
+  console.log('SENDING FROM <<get_noticias>> : '+JSON.stringify(req.params.id));
+  console.log('SENDING FROM <<get_noticias>> : '+JSON.stringify(data.noticias[req.params.id]));
   console.log(' ');
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   res.send({
       status:'success',
-      data:data.noticias
+      data:data.noticias[req.params.id]
   });
 });
 
-restApi.post('/post_all_detalles',(req,res)=>{
+restApi.post('/post_detalle',(req,res)=>{
   console.log(' ');
-  console.log('BODY <<post_all_detalles>> : '+JSON.stringify(req.body));
+  console.log('Estare recibiendo el id????: '+JSON.stringify(req.body));
   console.log(' ');
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  console.log('SENDING FROM <<post_all_detalles>> : '+JSON.stringify(data.building_1));
+  let id_detalle = req.body.id_detalle;
   if(
-    req.body.id_detalles!==null&&
-    req.body.id_detalles!==undefined
+    id_detalle!==null&&
+    id_detalle!==undefined
   ){
     res.send({
       status:'success',
-      data:data.detalles[req.body.id_detalles-1]
+      data:data.detalles[id_detalle-1]
     });
   }else{
     res.send({status:'No Params for Query'});
   }
+});
+
+restApi.get('/get_categoria',(req,res)=>{
+  console.log(' ');
+  console.log('Se enviaron las categorias: '+JSON.stringify(req.body));
+  console.log(' ');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.send({
+    status:'success',
+    data:data.categoria
+    });
 });
